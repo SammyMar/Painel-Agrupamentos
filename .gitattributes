@@ -1,0 +1,6 @@
+Dados_Painel.psd filter=lfs diff=lfs merge=lfs -text
+Dados_Painel/df_mapas/mapa_dados_df.rds filter=lfs diff=lfs merge=lfs -text
+Dados_Painel/espectral_out.rds filter=lfs diff=lfs merge=lfs -text
+Dados_Painel/arquivos_espectral/espectral.rds filter=lfs diff=lfs merge=lfs -text
+Dados_Painel/arquivos_espectral/espectral_auto.rds filter=lfs diff=lfs merge=lfs -text
+Dados_Painel/br_municipios_20200807/BR_Municipios_2019.shp filter=lfs diff=lfs merge=lfs -text
