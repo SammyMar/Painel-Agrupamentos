@@ -145,7 +145,6 @@ ui <-  dashboardPage(
     tabItems(
     tabItem(tabName = "ac",
             fluidRow(
-              fluidPage(
                 box(
                   width = 12,
                   status = "primary",
@@ -172,47 +171,8 @@ ui <-  dashboardPage(
                   tags$head(tags$style(HTML(
                     ".selectize-input {height: 40px; width: 500px; font-size: 25px;}"
                     ))),
-                  shiny::conditionalPanel(
-                    condition = "input.tabbox1 == 'porc_premat'",
                     column(
                       tabBox(tabPanel(htmlOutput("table1"))), width = 6)
-                  ),
-                  shiny::conditionalPanel(
-                    condition = "input.tabbox1 == 'porc_gesta_multipla'",
-                    column(tabBox(tabPanel(htmlOutput("table2"))), width = 6)
-                  ),
-                  shiny::conditionalPanel(
-                    condition = "input.tabbox1 == 'porc_cesarea'",
-                    column(tabBox(tabPanel(htmlOutput("table3"))), width = 6)
-                  ),
-                  shiny::conditionalPanel(
-                    condition = "input.tabbox1 == 'porc_0_consulta'",
-                    column(tabBox(tabPanel(htmlOutput("table4"))), width = 6)
-                  ),
-                  shiny::conditionalPanel(
-                    condition = "input.tabbox1 == 'porc_7mais_consulta'",
-                    column(tabBox(tabPanel(htmlOutput("table5"))), width = 6)
-                  ),
-                  shiny::conditionalPanel(
-                    condition = "input.tabbox1 == 'porc_apgar1_menor_7'",
-                    column(tabBox(tabPanel(htmlOutput("table6"))), width = 6)
-                  ),
-                  shiny::conditionalPanel(
-                    condition = "input.tabbox1 == 'porc_apgar5_menor_7'",
-                    column(tabBox(tabPanel(htmlOutput("table7"))), width = 6)
-                  ),
-                  shiny::conditionalPanel(
-                    condition = "input.tabbox1 == 'porc_anomalia'",
-                    column(tabBox(tabPanel(htmlOutput("table8"))), width = 6)
-                  ),
-                  shiny::conditionalPanel(
-                    condition = "input.tabbox1 == 'porc_peso_menor_2500'",
-                    column(tabBox(tabPanel(htmlOutput("table9"))), width = 6)
-                  ),
-                  shiny::conditionalPanel(
-                    condition = "input.tabbox1 == 'porc_fem'",
-                    column(tabBox(tabPanel(htmlOutput("table10"))), width = 6)
-                  )
                 ),
                 box(
                   width = 12,
@@ -235,36 +195,13 @@ ui <-  dashboardPage(
                   tags$head(tags$style(HTML(
                     ".selectize-input {height: 40px; width: 550px; font-size: 25px;}"
                   ))),
-                  shiny::conditionalPanel(
-                    condition = "input.chart1 == 'nascidos_vivos'",
                     column(
                       plotOutput("plot1"), width = 6)
-                  ),
-                  shiny::conditionalPanel(
-                    condition = "input.chart1 == 'fectot'",
-                    column(
-                      plotOutput("plot2"), width = 6)
-                  ),
-                  shiny::conditionalPanel(
-                    condition = "input.chart1 == 'gini'",
-                    column(
-                      plotOutput("plot3"), width = 6)
-                  ),
-                  shiny::conditionalPanel(
-                    condition = "input.chart1 == 'rdpc'",
-                    column(
-                      plotOutput("plot4"), width = 6)
-                  ),
-                  shiny::conditionalPanel(
-                    condition = "input.chart1 == 'idhm'",
-                    column(
-                      plotOutput("plot5"), width = 6)
-                  )
                 )
                 ))
               ))
     )
-  )
+
 
 
 ############################# Server ########################################
@@ -273,148 +210,30 @@ server <- function(input, output, session) {
 
 
 ################ Tabelas descritivas ####################
+dado1 <- reactive({
+    dados_aux <- dados
+    var <- input$tabbox1
+    names(dados_aux)[names(dados_aux) == var] <- 'var'
+    dados_aux
+ })
 output$table1 <- renderPrint({
+  var <- input$tabbox1
   st_options(headings = FALSE, display.labels = FALSE)
   modelsummary::datasummary(
-    Grupo ~ (porc_premat)* ((`n` = N) +
+    Grupo ~ (var)* ((`n` = N) +
                             (`Média` = Mean) +
                             ( DP = SD) +
                             (`Mínimo` = Min) +
                             (`Mediana` = Median) +
                             (`Máximo` = Max)),
-    data = dados,
+    data = dado1(),
     output = 'html'
     ) 
-})
-  
-output$table2 <- renderPrint({
-  st_options(headings = FALSE, display.labels = FALSE)
-  modelsummary::datasummary(
-    Grupo ~ (porc_gesta_multipla)* ((`n` = N) +
-                                    (`Média` = Mean) +
-                                    ( DP = SD) +
-                                    (`Mínimo` = Min) +
-                                    (`Mediana` = Median) +
-                                    (`Máximo` = Max)),
-    data = dados,
-    output = 'html'
-    )
-})
-  
-output$table3 <- renderPrint({
-st_options(headings = FALSE, display.labels = FALSE)
-  modelsummary::datasummary(
-    Grupo ~ (porc_cesarea)* ((`n` = N) +
-                             (`Média` = Mean) +
-                             ( DP = SD) +
-                             (`Mínimo` = Min) +
-                             (`Mediana` = Median) +
-                             (`Máximo` = Max)),
-    data = dados,
-    output = 'html'
-    )
-})
-  
-output$table4 <- renderPrint({
-st_options(headings = FALSE, display.labels = FALSE)
-  modelsummary::datasummary(
-    Grupo ~ (porc_0_consulta)* ((`n` = N) +
-                                (`Média` = Mean) +
-                                ( DP = SD) +
-                                (`Mínimo` = Min) +
-                                (`Mediana` = Median) +
-                                (`Máximo` = Max)),
-    data = dados,
-    output = 'html'
-    )
-})
-  
-output$table5 <- renderPrint({
-st_options(headings = FALSE, display.labels = FALSE)
-  modelsummary::datasummary(
-    Grupo ~ (porc_7mais_consulta)* ((`n` = N) +
-                                    (`Média` = Mean) +
-                                    ( DP = SD) +
-                                    (`Mínimo` = Min) +
-                                    (`Mediana` = Median) +
-                                    (`Máximo` = Max)),
-    data = dados,
-    output = 'html'
-    )
-})
-  
-output$table6 <- renderPrint({
-st_options(headings = FALSE, display.labels = FALSE)
-  modelsummary::datasummary(
-    Grupo ~ (porc_apgar1_menor_7)* ((`n` = N) +
-                                    (`Média` = Mean) +
-                                    ( DP = SD) +
-                                    (`Mínimo` = Min) +
-                                    (`Mediana` = Median) +
-                                    (`Máximo` = Max)),
-    data = dados,
-    output = 'html'
-    )
-})
-  
-output$table7 <- renderPrint({
-st_options(headings = FALSE, display.labels = FALSE)
-  modelsummary::datasummary(
-    Grupo ~ (porc_apgar5_menor_7)* ((`n` = N) +
-                                    (`Média` = Mean) +
-                                    ( DP = SD) +
-                                    (`Mínimo` = Min) +
-                                    (`Mediana` = Median) +
-                                    (`Máximo` = Max)),
-    data = dados,
-    output = 'html'
-    )
-})
-  
-output$table8 <- renderPrint({
-st_options(headings = FALSE, display.labels = FALSE)
-  modelsummary::datasummary(
-    Grupo ~ (porc_anomalia)* ((`n` = N) +
-                              (`Média` = Mean) +
-                              ( DP = SD) +
-                              (`Mínimo` = Min) +
-                              (`Mediana` = Median) +
-                              (`Máximo` = Max)),
-    data = dados,
-    output = 'html'
-    )
-})
-  
-output$table9 <- renderPrint({
-st_options(headings = FALSE, display.labels = FALSE)
-  modelsummary::datasummary(
-    Grupo ~ (porc_peso_menor_2500)* ((`n` = N) +
-                                     (`Média` = Mean) +
-                                     ( DP = SD) +
-                                     (`Mínimo` = Min) +
-                                     (`Mediana` = Median) +
-                                     (`Máximo` = Max)),
-    data = dados,
-    output = 'html'
-    )
-})
-  
-output$table10 <- renderPrint({
-st_options(headings = FALSE, display.labels = FALSE)
-  modelsummary::datasummary(
-    Grupo ~ (porc_fem)* ((`n` = N) +
-                         (`Média` = Mean) +
-                         ( DP = SD) +
-                         (`Mínimo` = Min) +
-                         (`Mediana` = Median) +
-                         (`Máximo` = Max)),
-    data = dados,
-    output = 'html'
-    )
 })
 
   
 ##################### Boxplot ##########################
+
 output$plot1 <- renderPlot({
   ggplot(dados[dados$codigo %in% socioeconomicos$codmun6, ]) +
     geom_boxplot(aes(Grupo, log(nascidos_vivos)), fill = "aquamarine4") +
