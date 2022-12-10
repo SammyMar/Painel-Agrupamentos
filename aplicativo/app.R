@@ -216,6 +216,7 @@ dado1 <- reactive({
     names(dados_aux)[names(dados_aux) == var] <- 'var'
     dados_aux
  })
+  
 output$table1 <- renderPrint({
   var <- input$tabbox1
   st_options(headings = FALSE, display.labels = FALSE)
