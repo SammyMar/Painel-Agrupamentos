@@ -46,7 +46,7 @@ mapa_dados_pontos = ggplot2::fortify(mapa_dados, region = "id")
 mapa_dados_df = dplyr::inner_join(mapa_dados_pontos,
                                   mapa_dados@data,
                                   by = "id")
-#saveRDS(mapa_dados_df, "mapa_dados_df.rds")
+saveRDS(mapa_dados_df, "mapa_dados_df.rds")
 
 ### gerando data frame para UF
 
@@ -69,4 +69,4 @@ mapa_uf_pontos = ggplot2::fortify(mapa_uf, region = "id")
 mapa_uf_df = dplyr::inner_join(mapa_uf_pontos,
                                mapa_uf@data,
                                by = "id")
-#saveRDS(mapa_uf_df, "mapa_uf_df.rds")
+saveRDS(mapa_uf_df, "mapa_uf_df.rds")

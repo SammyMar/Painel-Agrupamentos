@@ -196,6 +196,10 @@ dados_arv <- dados %>%
 arvore <- rpart(Grupo ~ ., data = dados_arv[, -c(1:4)])
 prp(arvore)
 
+png("arvore.png", units = "in", width = 7, height = 4, res=300)
+prp(arvore)
+dev.off()
+
 ################ construção mapa ##############################################
 mapa_grups <-
   left_join(mapa_dados_df, dados[, c("codigo", "Grupo")])
@@ -272,38 +276,79 @@ capitais <- dados %>%
 box_nasc <- ggplot(dados[dados$codigo %in% socioeconomicos$codmun6, ]) +
   geom_boxplot(aes(Grupo, log(nascidos_vivos)), fill = "aquamarine4") +
   labs(y = "",
-       x = "Grupo",
+       x = "\nGrupo",
        title = "Nascidos Vivos (log)") +
-  theme_classic()
+  theme_classic() +
+  theme(#panel.grid.minor = element_line(color = 'white'),
+        #panel.grid.major = element_line(color = 'white'),
+        axis.text = element_text(size = 9,face = "bold"),
+        axis.title = element_text(size = 8,face = "bold"))
+
+
+png("box_nasc.png", units = "in", width = 7, height = 4, res = 300)
+box_nasc
+dev.off()
 
 # Boxplot Fecundidade Total
 box_fectot <- ggplot( socioeconomicos ) +
   geom_boxplot(aes(Grupo, fectot), fill = "aquamarine4") +
   labs(y = "", 
-       x = "Grupo",
+       x = "\nGrupo",
        title = "Fecundidade Total") + 
-  theme_classic()
+  theme_classic() +
+  theme(#panel.grid.minor = element_line(color = 'white'),
+    #panel.grid.major = element_line(color = 'white'),
+    axis.text = element_text(size = 9,face = "bold"),
+    axis.title = element_text(size = 8,face = "bold"))
+
+png("box_fectot.png", units = "in", width = 7, height = 4, res = 300)
+box_fectot
+dev.off()
 
 # Boxplot Índice de Gini
 box_gini <- ggplot( socioeconomicos ) +
   geom_boxplot(aes(Grupo, gini), fill = "aquamarine4") +
   labs(y = "", 
-       x = "Grupo",
+       x = "\nGrupo",
        title = " Índice de Gini") +
-  theme_classic()
+  theme_classic() +
+  theme(#panel.grid.minor = element_line(color = 'white'),
+    #panel.grid.major = element_line(color = 'white'),
+    axis.text = element_text(size = 9,face = "bold"),
+    axis.title = element_text(size = 8,face = "bold"))
+
+png("box_gini.png", units = "in", width = 7, height = 4, res = 300)
+box_gini
+dev.off()
 
 # Boxplot Renda per Capita Média
 box_rdpc <- ggplot( socioeconomicos ) +
   geom_boxplot(aes(Grupo, rdpc), fill = "aquamarine4") +
   labs(y = "", 
-       x = "Grupo",
+       x = "\nGrupo",
        title = "Renda per Capita Média") + 
-  theme_classic()
+  theme_classic() +
+  theme(#panel.grid.minor = element_line(color = 'white'),
+    #panel.grid.major = element_line(color = 'white'),
+    axis.text = element_text(size = 9,face = "bold"),
+    axis.title = element_text(size = 8,face = "bold"))
+
+png("box_rdpc.png", units = "in", width = 7, height = 4, res = 300)
+box_rdpc
+dev.off()
 
 # Boxplot Índice de Desenvolvimento Humano Municipal
 box_idhm <- ggplot( socioeconomicos ) +
   geom_boxplot(aes(Grupo, idhm), fill = "aquamarine4") +
   labs(y = "", 
-       x = "Grupo", 
+       x = "\nGrupo", 
        title = " Índice de Desenvolvimento Humano Municipal") + 
-  theme_classic()
+  theme_classic() +
+  theme(#panel.grid.minor = element_line(color = 'white'),
+    #panel.grid.major = element_line(color = 'white'),
+    axis.text = element_text(size = 9,face = "bold"),
+    axis.title = element_text(size = 8,face = "bold"))
+
+png("box_idhm.png", units = "in", width = 7, height = 4, res = 300)
+box_idhm
+dev.off()
